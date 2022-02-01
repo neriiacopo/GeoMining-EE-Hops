@@ -15,7 +15,7 @@ This repository is produced for a masterclass at the Architectural Association L
   - git clone https://github.com/neriiacopo/AALU-GeoMining.git
 
 2. **[virtual environment](https://docs.python.org/3/tutorial/venv.html)**
-  - `cd AALU-GeoMining`
+  - enter the repository `cd AALU-GeoMining`
   - with only Python3 installed `python -m venv env_GeoMining`
   - if Python2 and Python3 installed `python3 -m venv env_GeoMining`
   -  mac: `source /env_GeoMining/bin/activate`
