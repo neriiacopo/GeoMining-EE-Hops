@@ -7,7 +7,7 @@ This repository is produced for a masterclass at the Architectural Association L
 - [Rhinoceros](https://www.rhino3d.com/download/) (7)
 - [Python 3](https://www.python.org/downloads/) (ideally 3.7 +)
 
-## to connect to Earth Engine
+## to live connect to Earth Engine
 ## Installation
 1. **[clone the repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)**
   - open a Terminal (mac) or run PowerShell (win)
@@ -16,19 +16,18 @@ This repository is produced for a masterclass at the Architectural Association L
 
 2. **[virtual environment](https://docs.python.org/3/tutorial/venv.html)**
   - enter the repository `cd AALU-GeoMining`
-  - with only Python3 installed `python -m venv env_GeoMining`
-  - if Python2 and Python3 installed `python3 -m venv env_GeoMining`
-  -  mac: `source /env_GeoMining/bin/activate`
-  -  win: `.\env_GeoMining\Scripts\activate`
+  - create the virtual environment `python -m venv env_GeoMining`
+  - mac: `source /env_GeoMining/bin/activate`
+  - win: `.\env_GeoMining\Scripts\activate`
 3. **install dependencies**
   - `pip install -r requirements.txt`
 4. **authenticate to Earth Engine**
-  - Run hello_ee.py to locally store your credentials to access EE
+  - Locally store your credentials to access Earth Engine `python hello_ee.py`
 
 ## Usage
 - Change directory in the Terminal/PowerShell to repository folder
 - Activate your virtual environment (as explained above)
-- Run import_ee.py to connect Grasshopper to Google Earth via Hops
+- Connect Grasshopper to Earth Engine via Hops `python import_ee.py`
 
 ## Troubleshooting
 - if `.\env_GeoMining\Scripts\activate` fails to run in Windows
@@ -37,3 +36,8 @@ This repository is produced for a masterclass at the Architectural Association L
   - `y`
   - `.\env_GeoMining\Scripts\activate`
 
+- if any of the Python scripts fails to run 
+  - check if you Python2 installed as well and make sure to call Python3
+  - `python3 -m venv env_GeoMining`
+  - `python3 hello_ee.py`
+  - `python3 import_ee.py`
