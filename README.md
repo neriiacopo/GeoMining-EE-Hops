@@ -7,7 +7,7 @@ This repository is produced for a masterclass at the Architectural Association L
 - [Rhinoceros](https://www.rhino3d.com/download/) (7)
 - [Python 3](https://www.python.org/downloads/) (ideally 3.7 +)
 
-## to run the Python script
+## to connect to Earth Engine
 ## Installation
 1. **[clone the repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)**
   - open a Terminal (mac) or run PowerShell (win)
