@@ -5,14 +5,13 @@ import pandas as pd
 import numpy as np
 import ee
 import geemap
-import geotiff
 import os
 from pyproj import CRS
 from pyproj.aoi import AreaOfInterest
 from pyproj.database import query_utm_crs_info
 from pyproj import Transformer
 
-# ee.Authenticate()
+# Make to first run hello_ee.py to do the one-time authentication to Earth Engine
 
 # register hops app as middleware
 app = Flask(__name__)
@@ -78,8 +77,8 @@ def ee_image(layer,bands,scale,pts):
 
     # rgb is a three dimension array (firt two being the data and third being relative to the band)
     rgb_img = geemap.ee_to_numpy(imageResampled, default_value=0, region=aoi)
-    W = rgb_img.shape[0]
-    H = rgb_img.shape[1]
+    H = rgb_img.shape[0]
+    W = rgb_img.shape[1]
     
     return rgb_img.flatten().tolist(),W,H,;
 
@@ -138,8 +137,8 @@ def ee_ND(layer,band1,band2,scale,pts):
 
     # rgb is a three dimension array (firt two being the data and third being relative to the band)
     rgb_img = geemap.ee_to_numpy(imageResampled, default_value=0, region=aoi)
-    W = rgb_img.shape[1]
     H = rgb_img.shape[0]
+    W = rgb_img.shape[1]
     
     return rgb_img.flatten().tolist(),W,H,;
 
