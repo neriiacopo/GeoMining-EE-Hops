@@ -1,7 +1,7 @@
-# AALU_Geo Mining
+# Geo Mining
 ![AA_ee_black_2](https://user-images.githubusercontent.com/50297074/151965110-faf885a2-d8ff-412b-ac33-0ac9422a9a40.jpg)
 
-This repository is produced for a masterclass at the Architectural Association Landscape Urbanism programme.
+This repository collects a computational pipeline to mine geospatial data through Google Earth Engine in Grasshopper 3D, via its most recent Hops component.
 
 ## Requirements
 - [Rhinoceros](https://www.rhino3d.com/download/) (7)
