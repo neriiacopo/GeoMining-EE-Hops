@@ -12,7 +12,7 @@ This repository collects a computational pipeline to mine geospatial data throug
 1. **[clone the repository](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)**
   - open a Terminal (mac) or run PowerShell (win)
   - change directory to your desidered path `example: cd /Users/xxx/Desktop/`
-  - git clone https://github.com/neriiacopo/AALU-GeoMining.git
+  - git clone https://github.com/neriiacopo/GeoMining-EE-Hops.git
 
 2. **[virtual environment](https://docs.python.org/3/tutorial/venv.html)**
   - enter the repository `cd AALU-GeoMining`
