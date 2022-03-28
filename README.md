@@ -15,7 +15,7 @@ This repository collects a computational pipeline to mine geospatial data throug
   - git clone https://github.com/neriiacopo/GeoMining-EE-Hops.git
 
 2. **[virtual environment](https://docs.python.org/3/tutorial/venv.html)**
-  - enter the repository `cd AALU-GeoMining`
+  - enter the repository `cd GeoMining-EE-Hops`
   - create the virtual environment `python -m venv env_GeoMining`
   - mac: `source /env_GeoMining/bin/activate`
   - win: `.\env_GeoMining\Scripts\activate`
