@@ -3,6 +3,5 @@ dependencies:
   - python>=3.8
   - anaconda
   - pip
-  - pywin32==302
   - pip:
     - -r requirements.txt
