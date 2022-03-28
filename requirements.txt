@@ -1,4 +1,5 @@
 ee
+geemap
 ghhops_server
 flask
 flask-ngrok
