@@ -56,7 +56,7 @@ def ee_image(layer,bands,scale,pts):
     # Resample the image to assign custom scale
     imageResampled = image \
         .reduceResolution(**{
-        'reducer': ee.Reducer.mode(),
+        'reducer': ee.Reducer.mean(),
         'maxPixels': 5000
         }) \
         .reproject(**{
@@ -86,71 +86,25 @@ def ee_image(layer,bands,scale,pts):
     "/ee_imageCollection",
     inputs=[       
         hs.HopsString("layer", "layer"),
-        hs.HopsString("date", "date", "input date", hs.HopsParamAccess.LIST),
-        hs.HopsString("bands", "bands"),
-        hs.HopsNumber("scale", "scale"),
-        hs.HopsPoint("bounding box","bbox","the bounding box representing the area of analysis. Note, provide it in the following order: min.Lon(X), max.Lon(X), min.Lat(Y), max.Lat(Y) aka LeftBottom, RightBottom, RightTop, LeftTop", hs.HopsParamAccess.LIST)],
+        hs.HopsString("date", "date", "input date", hs.HopsParamAccess.LIST)],
     outputs=[
-        hs.HopsNumber("values"),
-        hs.HopsNumber("W"),
-        hs.HopsNumber("H")
+        hs.HopsString("layer")
     ],
 )
 
-def ee_imageCollection(layer,date,bands,scale,pts):
 
-    print(type(layer))
-    print(bands)
-    print(date)
-    print(date[0],date[1])
-    
+def ee_imageCollection(layer,date):    
 
     # Create a map to upload the layers to.
     Map = geemap.Map()
 
-    # Add image layer
+    # Add image layer and filter on Dates
     imageCollection = ee.ImageCollection(layer)\
-                    .filterDate(date[0],date[1])\
-                    .select(bands)
+                    .filterDate(date[0],date[1])
 
     image = ee.Image(imageCollection.first())
 
-    layer_viz = {
-        'bands': [bands]
-    }
-
-    #Map.addLayer(image, layer_viz, None, False, 1)
-
-    imageProjection = image.projection()
-
-    # Resample the image to assign custom scale
-    imageResampled = image \
-        .reduceResolution(**{
-        'reducer': ee.Reducer.mean(),
-        'maxPixels': 5000
-        }) \
-        .reproject(**{
-        'crs': imageProjection,
-        'scale': scale
-        })
-
-    pts_py = []
-    print(pts)
-    for p in pts: 
-        pts_py.append([p.X, p.Y])
-
-    aoi = ee.Geometry.Polygon(
-        [[[pts_py[0][0], pts_py[0][1]],
-        [pts_py[1][0], pts_py[1][1]],
-        [pts_py[2][0], pts_py[2][1]],
-        [pts_py[3][0], pts_py[3][1]]]], None, False)
-
-    # rgb is a three dimension array (firt two being the data and third being relative to the band)
-    rgb_img = geemap.ee_to_numpy(imageResampled, default_value=0, region=aoi)
-    H = rgb_img.shape[0]
-    W = rgb_img.shape[1]
-    
-    return rgb_img.flatten().tolist(),W,H,;
+    return image.getInfo().get("id");
 
 
 
@@ -187,7 +141,7 @@ def ee_ND(layer,band1,band2,scale,pts):
     # Resample the image to assign custom scale
     imageResampled = image \
         .reduceResolution(**{
-        'reducer': ee.Reducer.mean(),
+        'reducer': ee.Reducer.mode(),
         'maxPixels': 5000
         }) \
         .reproject(**{
