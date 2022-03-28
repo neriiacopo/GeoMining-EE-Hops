@@ -4,3 +4,4 @@ flask
 rhino3dm
 pandas
 pyproj
+cmake
