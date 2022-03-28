@@ -4,6 +4,6 @@ ghhops_server
 flask
 flask-ngrok
 cmake
-rhino3dm==7.11.1
+rhino3dm==7.14.1
 pandas
 pyproj
