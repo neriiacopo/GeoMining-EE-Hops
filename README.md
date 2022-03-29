@@ -7,8 +7,8 @@ This repository collects a computational pipeline to mine geospatial data throug
 - [Rhinoceros](https://www.rhino3d.com/download/) (7)
 - [Python 3](https://www.python.org/downloads/) (ideally 3.7 +)
 
-## REMOTE : through Coolab
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neriiacopo/GeoMining-EE-Hops/GeoMining_EE_Hops.ipynb]
+## REMOTE : using Flask-ngrok and Colab
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neriiacopo/GeoMining-EE-Hops/GeoMining_EE_Hops.ipynb)]
 
 ## LOCAL : to live connect to Earth Engine
 ## Installation
