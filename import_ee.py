@@ -1,6 +1,5 @@
 from flask import Flask
 import ghhops_server as hs
-import rhino3dm
 import pandas as pd
 import numpy as np
 import ee
@@ -75,38 +74,79 @@ def ee_image(layer,bands,scale,pts):
         [pts_py[2][0], pts_py[2][1]],
         [pts_py[3][0], pts_py[3][1]]]], None, False)
 
-    # rgb is a three dimension array (firt two being the data and third being relative to the band)
     rgb_img = geemap.ee_to_numpy(imageResampled, default_value=0, region=aoi)
-    H = rgb_img.shape[0]
-    W = rgb_img.shape[1]
+    H = rgb_img.shape[0] -1 
+    W = rgb_img.shape[1] -1 
     
     return rgb_img.flatten().tolist(),W,H,;
+
 
 @hops.component(
     "/ee_imageCollection",
     inputs=[       
         hs.HopsString("layer", "layer"),
-        hs.HopsString("date", "date", "input date", hs.HopsParamAccess.LIST)],
+        hs.HopsString("bands", "bands"),
+        hs.HopsString("date", "date", "input date", hs.HopsParamAccess.LIST),
+        hs.HopsNumber("scale", "scale"),
+        hs.HopsPoint("bounding box","bbox","the bounding box representing the area of analaysis. Note, provide it in the following order: min.Lon(X), max.Lon(X), min.Lat(Y), max.Lat(Y) aka LeftBottom, RightBottom, RightTop, LeftTop", hs.HopsParamAccess.LIST)],
     outputs=[
-        hs.HopsString("layer")
-    ],
+        hs.HopsNumber("values"),
+        hs.HopsNumber("W"),
+        hs.HopsNumber("H")
+    ]
 )
 
-
-def ee_imageCollection(layer,date):    
+def ee_imageCollection(layer,bands,date,scale,pts):    
 
     # Create a map to upload the layers to.
     Map = geemap.Map()
 
+    # Create region for spatial filter
+    pts_py = []
+    print(pts)
+    for p in pts: 
+        pts_py.append([p.X, p.Y])
+
+    aoi = ee.Geometry.Polygon(
+        [[[pts_py[0][0], pts_py[0][1]],
+        [pts_py[1][0], pts_py[1][1]],
+        [pts_py[2][0], pts_py[2][1]],
+        [pts_py[3][0], pts_py[3][1]]]], None, False)
+
     # Add image layer and filter on Dates
     imageCollection = ee.ImageCollection(layer)\
-                    .filterDate(date[0],date[1])
+                    .select(bands)\
+                    .filterBounds(aoi)\
+                    .filterDate(date[0],date[1])\
+                    .limit(10)
 
-    image = ee.Image(imageCollection.first())
+    imageProjection = imageCollection.first().projection()
 
-    return image.getInfo().get("id");
+    imageMosaic = ee.Image(imageCollection.mosaic())\
+                            .setDefaultProjection(imageProjection)
 
+    layer_viz = {
+        'bands': [bands]
+    }
 
+    Map.addLayer(imageMosaic, layer_viz, None, False, 1)
+
+    # Resample the image to assign custom scale
+    imageResampled = imageMosaic \
+        .reduceResolution(**{
+        'reducer': ee.Reducer.mean(),
+        'maxPixels': 5000
+        }) \
+        .reproject(**{
+        'crs': imageProjection,
+        'scale': scale
+        })
+
+    rgb_img = geemap.ee_to_numpy(imageResampled, default_value=0, region=aoi)
+    H = rgb_img.shape[0] -1 
+    W = rgb_img.shape[1] -1 
+    
+    return rgb_img.flatten().tolist(),W,H,;
 
 @hops.component(
     "/ee_nd",
@@ -162,11 +202,10 @@ def ee_ND(layer,band1,band2,scale,pts):
 
     # rgb is a three dimension array (firt two being the data and third being relative to the band)
     rgb_img = geemap.ee_to_numpy(imageResampled, default_value=0, region=aoi)
-    H = rgb_img.shape[0]
-    W = rgb_img.shape[1]
+    H = rgb_img.shape[0] -1 
+    W = rgb_img.shape[1] -1 
     
     return rgb_img.flatten().tolist(),W,H,;
-
 
 @hops.component(
     "/reproject_UTM",
@@ -177,7 +216,7 @@ def ee_ND(layer,band1,band2,scale,pts):
         hs.HopsPoint("points","pts","the projected points", hs.HopsParamAccess.LIST)
     ],
     outputs=[
-        hs.HopsPoint("points","p","the projected points")
+        hs.HopsString("points","p","the projected points")
     ]
 )
 
@@ -215,8 +254,9 @@ def reproject_UTM(pts):
 
         # provide first X then Y -- Lon then Lat
         p_UTM = transformer.transform(p.X,p.Y)
-        pts_UTM.append(rhino3dm.Point3d(p_UTM[0], p_UTM[1], 0))
+        pts_UTM.append(str("{" + str(p_UTM[0]) +"," + str(p_UTM[1]) + ",0}"))
 
+    print(pts_UTM)
     return pts_UTM;
 
 # Run app
