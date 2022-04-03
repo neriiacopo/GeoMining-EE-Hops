@@ -75,8 +75,8 @@ def ee_image(layer,bands,scale,pts):
         [pts_py[3][0], pts_py[3][1]]]], None, False)
 
     rgb_img = geemap.ee_to_numpy(imageResampled, default_value=0, region=aoi)
-    H = rgb_img.shape[0] -1 
-    W = rgb_img.shape[1] -1 
+    H = rgb_img.shape[0] 
+    W = rgb_img.shape[1] 
     
     return rgb_img.flatten().tolist(),W,H,;
 
@@ -143,8 +143,8 @@ def ee_imageCollection(layer,bands,date,scale,pts):
         })
 
     rgb_img = geemap.ee_to_numpy(imageResampled, default_value=0, region=aoi)
-    H = rgb_img.shape[0] -1 
-    W = rgb_img.shape[1] -1 
+    H = rgb_img.shape[0] 
+    W = rgb_img.shape[1] 
     
     return rgb_img.flatten().tolist(),W,H,;
 
@@ -202,8 +202,8 @@ def ee_ND(layer,band1,band2,scale,pts):
 
     # rgb is a three dimension array (firt two being the data and third being relative to the band)
     rgb_img = geemap.ee_to_numpy(imageResampled, default_value=0, region=aoi)
-    H = rgb_img.shape[0] -1 
-    W = rgb_img.shape[1] -1 
+    H = rgb_img.shape[0] 
+    W = rgb_img.shape[1] 
     
     return rgb_img.flatten().tolist(),W,H,;
 
