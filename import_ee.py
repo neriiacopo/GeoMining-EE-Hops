@@ -129,7 +129,7 @@ def ee_imageCollection(layer,bands,date,scale,pts):
 
     # Create a mosaic from available collection
     imageMosaic = ee.Image(imageCollection.mosaic())\
-                            .setDefaultProjection(imageProjection)
+                            .setDefaultProjection(proj)
 
     return img_scaleTrim(imageMosaic, bands, proj, scale, pts);
 
@@ -276,4 +276,4 @@ def reproject_UTM(pts):
 # Run App ------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
