@@ -24,8 +24,6 @@ This repository collects a computational pipeline to mine geospatial data throug
   - win: `.\env_GeoMining\Scripts\activate`
 3. **install dependencies**
   - `pip install -r requirements.txt`
-4. **[authenticate to Earth Engine](https://developers.google.com/earth-engine/guides/python_install)**
-  - Locally store your credentials to access Earth Engine `python hello_ee.py`
 
 ## Usage
 - Change directory in the Terminal/PowerShell to repository folder
