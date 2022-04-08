@@ -1,12 +1,9 @@
-blessings==1.7
 cachetools==5.0.0
 certifi==2021.10.8
 charset-normalizer==2.0.12
 click==8.1.2
 colorama==0.4.4
 earthengine-api==0.1.305
-ee==0.2
-ee-extra==0.0.13
 Flask==2.1.1
 future==0.18.2
 ghhops-server==1.5.2
