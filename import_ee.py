@@ -40,18 +40,19 @@ def pts_bbox(pts):
 
     return aoi;
 
-def img_scaleTrim(image, band, proj, scale, pts):
+def img_scaleTrim(image, band, mode, proj, scale, pts):
     
+    #image = image.setDefaultProjection(crs='EPSG:4326', scale=scale)
+
+    # Create reducer for sampling mode
+    reducer = "ee.Reducer."+ mode +"()"
+
+    print(reducer)
+
     # Resample the image to assign custom scale
     imageResampled = image \
-        .reduceResolution(**{
-        'reducer': ee.Reducer.mean(),
-        'maxPixels': 5000
-        }) \
-        .reproject(**{
-        'crs': proj,
-        'scale': scale
-        })
+        .reduceResolution(reducer= eval(reducer), maxPixels = 5000) \
+        .reproject(crs='EPSG:4326', scale=scale)
 
     # Extract the bounding region from the locations
     aoi = pts_bbox(pts)
@@ -65,7 +66,7 @@ def img_scaleTrim(image, band, proj, scale, pts):
     # Change from pixel to node (vertices)
     H = rgb_img.shape[0] -1
     W = rgb_img.shape[1] -1
-    
+
     return rgb_img.flatten().tolist(),W,H,;
 
 
@@ -76,6 +77,7 @@ def img_scaleTrim(image, band, proj, scale, pts):
     inputs=[       
         hs.HopsString("layer", "layer"),
         hs.HopsString("bands", "bands"),
+        hs.HopsString("mode","mode", "resampling mode to be applied. Default is mean", default="mean"),
         hs.HopsNumber("scale", "scale"),
         hs.HopsPoint("bounding box","bbox","the bounding box representing the area of analysis. Note, provide it in the following order: min.Lon(X), max.Lon(X), min.Lat(Y), max.Lat(Y) aka LeftBottom, RightBottom, RightTop, LeftTop", hs.HopsParamAccess.LIST)],
     outputs=[
@@ -85,7 +87,9 @@ def img_scaleTrim(image, band, proj, scale, pts):
     ],
 )
 
-def ee_image(layer,bands,scale,pts):
+def ee_image(layer,bands,mode,scale,pts):
+
+    print("test done")
 
     # Select image layer
     image = ee.Image(layer)\
@@ -94,7 +98,7 @@ def ee_image(layer,bands,scale,pts):
     # Extract original projection
     proj = image.projection()
 
-    return img_scaleTrim(image, bands, proj, scale, pts);
+    return img_scaleTrim(image, bands, mode, proj, scale, pts);
 
 
 @hops.component(
@@ -102,6 +106,7 @@ def ee_image(layer,bands,scale,pts):
     inputs=[       
         hs.HopsString("layer", "layer"),
         hs.HopsString("bands", "bands"),
+        hs.HopsString("mode","mode", "resampling mode to be applied. Default is mean", default="mean"),
         hs.HopsString("date", "date", "input date", hs.HopsParamAccess.LIST),
         hs.HopsNumber("scale", "scale"),
         hs.HopsPoint("bounding box","bbox","the bounding box representing the area of analysis. Note, provide it in the following order: min.Lon(X), max.Lon(X), min.Lat(Y), max.Lat(Y) aka LeftBottom, RightBottom, RightTop, LeftTop", hs.HopsParamAccess.LIST)],
@@ -112,7 +117,7 @@ def ee_image(layer,bands,scale,pts):
     ]
 )
 
-def ee_imageCollection(layer,bands,date,scale,pts):    
+def ee_imageCollection(layer,bands,mode,date,scale,pts):    
 
     # Extract the bounding region from the locations
     aoi = pts_bbox(pts)
@@ -131,7 +136,7 @@ def ee_imageCollection(layer,bands,date,scale,pts):
     imageMosaic = ee.Image(imageCollection.mosaic())\
                             .setDefaultProjection(proj)
 
-    return img_scaleTrim(imageMosaic, bands, proj, scale, pts);
+    return img_scaleTrim(imageMosaic, bands, mode, proj, scale, pts);
 
 @hops.component(
     "/ee_nd",
@@ -162,7 +167,7 @@ def ee_ND(layer,band1,band2,scale,pts):
     # Extract original projection
     proj = image1.projection()
 
-    return img_scaleTrim(imageND, "ND", proj, scale, pts)
+    return img_scaleTrim(imageND, "ND", "mean", proj, scale, pts)
     
 @hops.component(
     "/ee_cumCost",
@@ -219,7 +224,7 @@ def ee_cumCost(layer,cost,sources,maxd,scale,pts):
     cumulativeCost = costResample.cumulativeCost(source=imageSources, maxDistance=ee.Number.float(maxd)) \
         .rename("cumcost")
 
-    return img_scaleTrim(ee.Image(cumulativeCost), "cumcost", proj, scale, pts)
+    return img_scaleTrim(ee.Image(cumulativeCost), "cumcost", "mean", proj, scale, pts)
 
 @hops.component(
     "/reproject_UTM",
@@ -227,14 +232,15 @@ def ee_cumCost(layer,cost,sources,maxd,scale,pts):
     description="reproject locations from 4326 to local UTM",
     
     inputs=[
-        hs.HopsPoint("points","pts","the projected points", hs.HopsParamAccess.LIST)
+        hs.HopsPoint("points","pts","the projected points", hs.HopsParamAccess.LIST),
+        hs.HopsBoolean("bool","xyz?","should the boundingbox be moved to the origin?", default=False)
     ],
     outputs=[
         hs.HopsString("points","p","the projected points")
     ]
 )
 
-def reproject_UTM(pts):
+def reproject_UTM(pts, bool):
 
     # Compute the centroid location
     xs = []
@@ -263,11 +269,19 @@ def reproject_UTM(pts):
     transformer = Transformer.from_crs(WSG84_crs, utm_crs, always_xy=True)
 
     pts_UTM = []
-    
+
+    p_leftbottom = transformer.transform(pts[0].X,pts[0].Y) 
+
+    print(p_leftbottom)   
     for p in pts:
 
         # provide first X then Y -- Lon then Lat
         p_UTM = transformer.transform(p.X,p.Y)
+
+        # Move to origin using left bottom corner
+        if bool == True:
+            p_UTM = [p_UTM[0] - p_leftbottom[0], p_UTM[1] - p_leftbottom[1]]
+        
         pts_UTM.append(str("{" + str(p_UTM[0]) +"," + str(p_UTM[1]) + ",0}"))
 
     return pts_UTM;
