@@ -44,7 +44,7 @@ This repository collects a computational pipeline to mine geospatial data throug
   - `python3 hello_ee.py`
   - `python3 import_ee.py`
 
-- if import_ee.py fails due to Authentication
+- if `import_ee.py` fails due to Authentication
   - make sure to have a registered account to GEE
   - go at this **[link](https://signup.earthengine.google.com/)** and fill up the form
 
