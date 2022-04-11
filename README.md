@@ -29,6 +29,7 @@ This repository collects a computational pipeline to mine geospatial data throug
 - Change directory in the Terminal/PowerShell to repository folder
 - Activate your virtual environment (as explained above)
 - Connect Grasshopper to Earth Engine via Hops `python import_ee.py`
+- On the first run, follow the instructions in the console to authenticate your machine to Google Earth Engine
 
 ## Troubleshooting
 - if `.\env_GeoMining\Scripts\activate` fails to run in Windows
@@ -42,3 +43,8 @@ This repository collects a computational pipeline to mine geospatial data throug
   - `python3 -m venv env_GeoMining`
   - `python3 hello_ee.py`
   - `python3 import_ee.py`
+
+- if import_ee.py fails due to Authentication
+  - make sure to have a registered account to GEE
+  - go at this **[link](https://signup.earthengine.google.com/)** and fill up the form
+
