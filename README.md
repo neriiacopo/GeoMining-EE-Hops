@@ -8,7 +8,7 @@ This repository collects a computational pipeline to mine geospatial data throug
 - [Python 3](https://www.python.org/downloads/) (=>3.7)
 
 ## REMOTE : using Flask-ngrok and Colab
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neriiacopo/GeoMining-EE-Hops/blob/main/GeoMining_EE_Hops.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/neriiacopo/GeoMining-EE-Hops/blob/backup_v1/GeoMining_EE_Hops.ipynb)
 
 ## LOCAL : to live connect to Earth Engine
 ## Installation
