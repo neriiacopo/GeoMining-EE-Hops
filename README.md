@@ -4,7 +4,7 @@
 This repository collects a computational pipeline to mine geospatial data through Google Earth Engine in Grasshopper 3D, via its most recent Hops component.
 
 ## Requirements
-- [Rhinoceros](https://www.rhino3d.com/download/) (7)
+- [Rhinoceros](https://www.rhino3d.com/download/) (Win 7)
 - [Python 3](https://www.python.org/downloads/release/python-380/) (tested with 3.8.0)
 
 ## REMOTE : using Flask-ngrok and Colab
@@ -48,6 +48,6 @@ This repository collects a computational pipeline to mine geospatial data throug
   - make sure to have a registered account to GEE
   - go at this **[link](https://signup.earthengine.google.com/)** and fill up the form
   
- - if `import_ee.py` fails due to AttributeError: module 'collections' has no attribute 'Callable'
+- if `import_ee.py` fails due to AttributeError: module 'collections' has no attribute 'Callable'
   - make sure to run Python < 3.10
 
