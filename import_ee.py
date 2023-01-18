@@ -126,6 +126,39 @@ def ee_image(layer,bands,mode,scale,pts):
 
     return img_scaleTrim(image, bands, mode, proj, scale, pts);
 
+
+@hops.component(
+    "/ee_filterDate",
+    inputs=[
+        hs.HopsString("layer", "layer"),
+        hs.HopsString("dates", "dates", "first and last day to download", hs.HopsParamAccess.LIST)],
+    outputs=[
+        hs.HopsString("layers"),
+        hs.HopsString("days")
+    ],
+)
+
+def ee_filterDate(layer,dates):
+
+    # Filter image collection
+    images = ee.ImageCollection(layer) \
+             .filter(ee.Filter.date(dates[0],dates[1]))
+
+    # Get metadata
+    meta = images.getInfo()
+    length = len(meta["features"])
+    layers = []
+    days = []
+
+    for i in range(length):
+        layer = meta["features"][i]["id"]
+        day = meta["features"][i]["properties"]["system:index"]
+        layers.append(layer)
+        days.append(day)
+
+    return (layers, days);
+
+
 @hops.component(
     "/ee_nd",
     inputs=[       
@@ -347,4 +380,4 @@ def reproject_UTM(pts, bool):
 # Run App ------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
