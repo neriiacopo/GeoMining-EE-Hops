@@ -41,7 +41,6 @@ This repository collects a computational pipeline to mine geospatial data throug
 - if any of the Python scripts fails to run 
   - check if you Python2 installed as well and make sure to call Python3
   - `python3 -m venv env_GeoMining`
-  - `python3 hello_ee.py`
   - `python3 import_ee.py`
 
 - if `import_ee.py` fails due to Authentication
