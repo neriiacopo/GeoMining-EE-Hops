@@ -4,7 +4,7 @@
 This repository collects a computational pipeline to mine geospatial data through Google Earth Engine in Grasshopper 3D, via its most recent Hops component.
 
 ## Requirements
-- [Rhinoceros](https://www.rhino3d.com/download/) (Win 7)
+- [Rhinoceros 7](https://www.rhino3d.com/download/) (Win)
 - [Python 3](https://www.python.org/downloads/release/python-380/) (tested with 3.8.0)
 
 ## REMOTE : using Flask-ngrok and Colab
