@@ -20,7 +20,6 @@ This repository collects a computational pipeline to mine geospatial data throug
 2. **[virtual environment](https://docs.python.org/3/tutorial/venv.html)**
   - enter the repository `cd GeoMining-EE-Hops`
   - create the virtual environment `python -m venv env_GeoMining`
-  - mac: `source /env_GeoMining/bin/activate`
   - win: `.\env_GeoMining\Scripts\activate`
 3. **install dependencies**
   - `pip install -r requirements.txt`
