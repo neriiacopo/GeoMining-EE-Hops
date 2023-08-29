@@ -1,7 +1,7 @@
 # Geo Mining
 ![AA_ee_black_2](https://user-images.githubusercontent.com/50297074/151965110-faf885a2-d8ff-412b-ac33-0ac9422a9a40.jpg)
 
-This repository collects a computational pipeline to mine geospatial data through Google Earth Engine in Grasshopper 3D, via its most recent Hops component. The work has been presented during the Digital Landscape Architecture Conference 23, Dessau.
+This repository collects a computational pipeline to mine geospatial data through Google Earth Engine in Grasshopper 3D, via its most recent Hops component. To read more about case studies and applications refer to [I.Neri, Expanding Digital Design Workflows with Geospatial Analytics](https://doi.org/10.14627/537740047)
 
 ## Requirements
 - [Rhinoceros 7](https://www.rhino3d.com/download/) (Win)
