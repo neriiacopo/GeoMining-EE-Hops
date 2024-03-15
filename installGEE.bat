@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @echo off
 
 echo.
@@ -10,17 +9,16 @@ echo  _/    _/  _/        _/    _/  _/      _/    _/    _/    _/_/    _/    _/  
 echo   _/_/_/  _/_/_/_/    _/_/    _/      _/  _/_/_/  _/      _/  _/_/_/  _/      _/    _/_/_/       
 echo.
 
-echo ACTIVATE VIRTUAL ENVIRONMENT ....................................................................
+echo MAKING VIRTUAL ENVIRONMENT ......................................................................
+python -m venv env_GeoMining
 call .\env_GeoMining\Scripts\activate.bat
 
-echo RUN APP .........................................................................................
-python import_ee.py
+echo INSTALLING PAGKAGES .............................................................................
+pip install -r requirements.txt -q
 
-pause
-=======
-@echo off
+echo AUTHORIZING DEVICE ..............................................................................
+python -c "import ee; ee.Authenticate(auth_mode='notebook')"
 
-call .\env_GeoMining\Scripts\activate.bat
-python import_ee.py
+echo SETUP COMPLETED .................................................................................
 pause
->>>>>>> fa9f2e38128d7cd93029f3ba1523f090c07b862d
+
